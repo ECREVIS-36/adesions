@@ -1,2 +1,2 @@
-# adesions
-Saisie des adhésion sur une tablette
+# adhesions
+Saisie des adhésions sur une tablette
