@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<!--
+	Customize this policy to fit your own app's needs. For more guidance, see:
+			https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+	Some notes:
+			* gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+			* https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+			* Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+					* Enable inline JS: add 'unsafe-inline' to default-src
+	-->
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="msapplication-tap-highlight" content="no">
+	<meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+
+</head>
+
+  <!--
+  - date adhésion
+  - n° adhérent (et ajouter un petit texte "votre numéro d'adhérent se trouve sur votre carte d'adhérent...à prendre dans le petit pot à côté de l'ordinateur !")
+  - nom
+  - prénom
+  - adresse
+  - code postal
+  - commune
+  - téléphone (format texte pour qu'apparaisse le 0 au début du n°, 10 caractères)
+  - mail
+  - montant de la cotisation (format nombre, saisie obligatoire)
+  - et il faut ajouter une petite case à cocher et le texte "Je déclare avoir lu et accepté la charte et le règlement intérieur"
+  -->
+
+
+<body>
+  <label for="date">date d'adhésion</label>
+  <input name="date" type="date" id="date d'inscription" placeholder required autofocus>
+
+  <fieldset>
+
+    <legend><em>votre numéro d'adhérent se trouve sur votre carte d'adhérent...à prendre dans le petit pot à côté de l'ordinateur !</em></legend>
+    <label for="num">n° d'adhérent</label>
+    <input id="numéro d'adhérent" name="num" type="number" min=0 placeholder="N° d'adhérent" required autofocus style="width:7em;">
+  </fieldset>
+
+  <fieldset>
+    <legend><em>identité</em></legend>
+
+    <label for="prenom">prénom</label>
+    <input id="prénom" pattern="^[A-Za-z\-éèàâêç ]{2,}$" name="prenom" type="text" placeholder="prénom" required autofocus>
+    <label for="nom" >nom</label>
+    <input id="nom" pattern="^[A-Za-z\-éèàâêç ]{2,}$" name="nom" type="text" placeholder="nom" required autofocus>
+  </fieldset>
+
+  <fieldset>
+    <legend><em>adresse</em></legend>
+    <label for="adresse">lieu</label>
+    <input id="adresse" pattern="^[0-9A-Za-z,\-éèàâêç ]{5,}$" name="adresse" type="text" placeholder="3 rue de la ferme" required autofocus style="width:60vw;">
+    <br>
+    <label for="code postal">code postal</label>
+    <input id="cp" min="1000" max=99000 name="code postal" type="number" value=74000  placeholder="code postal" required autofocus>
+
+    <label for="ville">ville</label>
+    <input id="ville" pattern="^[A-Za-z\-éèàâêç ]{2,}$" name="ville" type="text" placeholder="ville" required autofocus>
+  </fieldset>
+
+  <fieldset>
+    <legend><em>coordonnées</em></legend>
+
+    <label for="mail">courriel</label>
+    <input id="mail" name="mail" type="mail" placeholder="a@b.com" required autofocus>
+
+    <label for="tel">téléphone</label>
+    <input id="tel" size=11 name="phone" type="tel" pattern="[0-9 \-]+" placeholder="06 82 52 67 22" required autofocus>
+    <em><small>format: 02 12 12 12 12</small></em>
+  </fieldset>
+
+  <fieldset>
+    <legend><em>cotisation</em></legend>
+
+    <label for="cotisation">montant</label>
+    <input id="montant" name="cotisation" type="number" min="1"  step="0.1" placeholder="" required autofocus style="width:5em">
+
+  </fieldset>
+
+  <label class="clause" for="clause">Je déclare avoir lu et accepté la charte et le règlement intérieur</label>
+  <input id="clause" name="clause" type="checkbox"  required autofocus>
+
+
+  <button name="ok" value="valider" id="validation">Valider</button>
+	<button name="test" value="test" id="test" style="visibility:hidden;display:none;">test</button>
+
+<!--
+	<p>Click on the image to download it:<p>
+<a href="/images/myw3schoolsimage.jpg" download>
+  <img src="/img/logo.png" alt="W3Schools" width="104" height="142">
+</a>
+-->
+<!--
+	<div class="app">
+			<h1>Apache Cordova</h1>
+			<div id="deviceready" class="blink">
+					<p class="event listening">Connecting to Device</p>
+					<p class="event received">Device is Ready</p>
+			</div>
+	</div>
+-->
+
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+</body>
+
+</html>
