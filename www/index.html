@@ -37,17 +37,17 @@
 <body>
   <img class="title" src='./img/formulaire_adhesion.png'></img>
   <li>
-  <label class='entete' for="date">date d'adhésion</label>
-  <input name="date" type="date" id="date d'adhésion" placeholder required 
+  <label class='entete' for="date">date d'adhésion :</label>
+  <input style='background:white;' name="date" type="date" id="date d'adhésion" placeholder required 
       autofocus style="width:11em;">
 </li>
 <li>
-  <label  class='entete'  for="num">n° d'adhérent</label>
-    <input id="numéro d'adhérent" name="num" type="number" min=0 placeholder="N° d'adhérent" required autofocus style="width:11em;">
+  <label  class='entete'  for="num">n° d'adhérent :</label>
+    <input style='background:white;' id="numéro d'adhérent" name="num" type="number" min=0 placeholder="N° d'adhérent" required autofocus style="width:11em;">
 </li>
  
 
-  <div class='help'><em>Votre <b>numéro d'adhérent</b> se trouve sur votre carte d'adhérent...à prendre dans le petit pot à côté de l'ordinateur !</em></div>
+  <div class='help'><em>Votre <b>numéro d'adhérent</b> se trouve sur votre carte d'adhérent ... à prendre dans le petit pot à côté de l'ordinateur !</em></div>
 
 
   <fieldset>
@@ -61,31 +61,31 @@
 <fieldset>
     <legend><img src='./img/adresse.png'></img></legend>
     <label for="adresse">lieu :</label>
-    <input id="adresse" pattern="^[0-9A-Za-z,\-éèàâêç ]{5,}$" name="adresse" type="text" placeholder="3 rue de la ferme" required autofocus style="width:20em;">
+    <input id="adresse" pattern="^[0-9A-Za-z,\-éèàâêç ]{5,}$" name="adresse" type="text" placeholder="3 rue de la ferme" required autofocus style="width:10em;">
     
     <label for="code postal">cp :</label>
-    <input id="cp" min="1000" max=99000 name="code postal" type="number" value=74000  placeholder="code postal" required autofocus>
+    <input id="cp" min="1000" max=99000 name="code postal" type="number" value=74000  placeholder="code postal" required autofocus style='width:4em;'>
 
     <label for="ville">ville :</label>
-    <input id="ville" pattern="^[A-Za-z\-éèàâêç ]{2,}$" name="ville" type="text" placeholder="ville" required autofocus>
+    <input id="ville" pattern="^[A-Za-z\-éèàâêç ]{2,}$" name="ville" type="text" placeholder="ville" required autofocus style="width:8em;">
   </fieldset>
 
   <fieldset>
     <legend><img src='./img/coordonnees.png'></img></legend>
 
     <label for="mail">courriel :</label>
-    <input id="mail" name="mail" type="mail" placeholder="a@b.com" required autofocus>
+    <input id="mail" name="mail" type="mail" placeholder="a@b.com" required autofocus style='width:7em;'>
 
     <label for="tel">téléphone :</label>
-    <input id="tel" size=11 name="phone" type="tel" pattern="[0-9 \-]+" placeholder="06 82 52 67 22" required autofocus>
-    <em><small>format: 02 12 12 12 12</small></em>
+    <input id="tel" size=11 name="phone" type="tel" pattern="[0-9 \-]+" placeholder="06 82 52 67 22" required autofocus style="margin-right:0em;">
+    <small style="font-style: italic"><small><small>format: 02 12 12 12 12</small></small></small>
   </fieldset>
 
   <fieldset>
     <legend><img src='./img/cotisation.png'></img></legend>
 
     <label for="cotisation">montant :</label>
-    <input id="montant" name="cotisation" type="number" min="1"  step="0.1" placeholder="" required autofocus style="width:5em">
+    <input id="montant" name="cotisation" type="number" min="1"  step="0.1" placeholder="" required autofocus style="width:5em;">
 
   </fieldset>
 

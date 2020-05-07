@@ -120,7 +120,7 @@ label{
 
 .entete {
     color: white;
-    width: 10em;
+    width: 11em;
 }
 .help {
     color: white;
@@ -203,9 +203,13 @@ button {
     padding: 15px;
     background: rgba(200,200,200,0.5);
     margin: 0 0 10px 0;
+    font-size:24px;
+
 }
 small{
 	margin-left:1em;
+    color:#0d53a0;
+    text-transform:none;
 }
 
 label:not(.clause ) {
@@ -220,8 +224,8 @@ label {
       margin-bottom:0.3em;
     }
 input[type='checkbox'] {
-    height:5em;
-    width:5em;bottom;
+    height:2em;
+    width:2em;bottom;
 }
 button{
     background: white;
