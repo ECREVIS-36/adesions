@@ -5,6 +5,8 @@ var app = {
   onDeviceReady: function() {
     this.receivedEvent('deviceready');
   },
+  app.testFileCreation:0,
+
   receivedEvent: function(id) {
     app.parentElement = document.getElementById(id);
     document.getElementById('validation').addEventListener('click', function() {
@@ -13,16 +15,17 @@ var app = {
     document.getElementById('validation').addEventListener('tap', function() {
       app.formSubmit()
     })
-		document.getElementById('test').addEventListener('tap', function() {
+	/*
+	document.getElementById('test').addEventListener('tap', function() {
 			app.test_launcher()
-		})
-		document.getElementById('test').addEventListener('click', function() {
+	})
+	document.getElementById('test').addEventListener('click', function() {
 			app.test_launcher()
-		})
-
+	})
+	*/
     console.log('LOG_ADHESION : Received Event: ' + id);
     app.storage = window.localStorage;
-		app.loadAdhesions( /*app.test_launcher()*/ )
+	app.loadAdhesions();  //ensure file is created
 
   },
   champs: ["date d'inscription", "numéro d'adhérent", "prénom", "nom", "adresse", "cp", "ville", "mail", "tel", "montant", "clause"],
@@ -54,15 +57,19 @@ var app = {
 					)
         }
       )
-			if (el_erreur){
-				app._alert( `${el_erreur} ${document.getElementById(el_erreur).value} n'est pas correct `)
-			}else{
-				console.log("LOG_ADHESION : controles ok");
-				app.saveAdhesion()
-			}
-  }, adhesionFileName: "adhesions.csv",
+	
+	if (el_erreur){
+		app._alert( `${el_erreur} ${document.getElementById(el_erreur).value} n'est pas correct `)
+	}else{
+		console.log("LOG_ADHESION : controles ok");
+		app.saveAdhesion()
+	}
+  }, 
+
+  	adhesionFileName: "adhesions.csv",
  	objectValuesToCsv:(data)=>	Object.values(data).join(';') + '\n',
 	arrayValuesToCsv:(data)=>		data.join(';') + '\n',
+
   saveAdhesion: function() {
 		console.log('LOG_ADHESION : ---------------------------------------storing')
 		let dataObj=	app.champs.reduce( (acc,key)=> {
@@ -72,9 +79,9 @@ var app = {
 		let docPath=app.getStorageUrl()+'/'+app.adhesionFileName
 		console.log('LOG_ADHESION : doc path in writting',docPath)
 		window.resolveLocalFileSystemURL(docPath,  (file)=> {
-			 	console.log('LOG_ADHESION : doc path in writing resolved',file)
+			console.log('LOG_ADHESION : doc path in writing resolved',file)
     		app.writeInFile(
-						file, app.objectValuesToCsv(dataObj)
+					file, app.objectValuesToCsv(dataObj)
 					, ()=> console.log('LOG_ADHESION : successfully wrote'));
 			}, (e) => console.error('LOG_ADHESION : ERREUR writing',JSON.stringify(e)));
   	},
@@ -88,31 +95,31 @@ var app = {
         };
         reader.readAsText(file)
 
-      }, (e) => console.error(e,'failed to read inscriptions') );
+      }, (e) => alert('failed to read inscriptions :'+JSON.stringify(e)) );
   },
 	writeInFile: function(file, data,callBack) {
 		file.createWriter(function(fileWriter) {
 			fileWriter.onwriteend = ()=>  callBack()
-			fileWriter.onerror  = () =>  console.error('LOG_ADHESION : Failed to write' , e )
+			fileWriter.onerror  = () =>  alert('WRITE failed :'+JSON.stringify(e));
 			try { fileWriter.seek(fileWriter.length); }
-			catch (e) { console.error('LOG_ADHESION : error when seeking',e);}
+			catch (e) {  alert('SEEK failed :'+JSON.stringify(e)); }
 			fileWriter.write(data);
 		});
 	},getStorageUrl_:()=>{
-
 		return cordova.file.externalDataDirectory;
 		if (cordova.file.externalApplicationStorageDirectory)
 			return cordova.file.externalApplicationStorageDirectory
 		else if (cordova.file.externalDataDirectory)
 			return cordova.file.externalApplicationStorageDirectory
 		else if (cordova.file.externalDataDirectory)
-				return cordova.file.externalApplicationStorageDirectory
+			return cordova.file.externalApplicationStorageDirectory
 		else if (cordova.file.applicationStorageDirectory)
-				return cordova.file.applicationStorageDirectory
+			return cordova.file.applicationStorageDirectory
 		else if (cordova.file.externalDataDirectory)
-				return cordova.file.externalDataDirectory
+			return cordova.file.externalDataDirectory
 		else {
 			console.error('pas de dir valable')
+			alert('No directrory available'); 
 			return null;
 		}
 	},
@@ -125,26 +132,33 @@ var app = {
 			window.resolveLocalFileSystemURL(app.getStorageUrl(), function (dirEntry) {
     		dirEntry.getFile(app.adhesionFileName, {create: true, exclusive: false}, function(fileEntry) {
         	writeInFile(fileEntry, app.objectValuesToCsv (app.champs) ,callBack);
-    		} ,()=> console.error('inpossible de créer le fichier'));
-		}, ()=>console.error('impossible d accéder à',app.getStorageUrl())) ;
+    		} ,()=>  alert('CANNOT create file')   );
+		}, ()=>alert('impossible d\'accéder à ' +app.getStorageUrl())) ;
 	},
-  loadAdhesions: function(callBack) {
-			window.resolveLocalFileSystemURL(app.getStorageUrl()+'/'+app.adhesionFileName,  (dirEntry)=> {
-				app.readFile(file, (data) => {
-					let array_inscriptions = data.split('\n').map(e => e.split('|'))
-					app.adhesions= array_inscriptions.map(
+  	loadAdhesions: function(callBack) {
+  		app.testFileCreation=app.testFileCreation+1
+  		console.log("load adhésion")
+  		if (app.testFileCreation>2) {
+  			alert("loadAdhesions :création du fichier impossible ")
+  			return;
+  		}
+		window.resolveLocalFileSystemURL(app.getStorageUrl()+'/'+app.adhesionFileName,  (dirEntry)=> {
+			app.readFile(file, (data) => {
+				/*let array_inscriptions = data.split('\n').map(e => e.split('|'))
+				app.adhesions= array_inscriptions.map(
 									d => d.reduce(
 										(acc, v, i) => {
 											acc[app.champs[i]] = v;
 											return v;
 										}, {}));
-					console.log('LOG_ADHESION : adhesions read',app.adhesions)
-					callBack();
-					});
-				}, ()=> app.createFile( () => app.loadAdhesions(callBack) )
-			);
-		},
-	test_launcher:()=>{
+				console.log('LOG_ADHESION : adhesions read',app.adhesions)
+				*/
+				//callBack();
+			});
+		}, ()=> app.createFile( () => app.loadAdhesions(); )
+		);
+	}
+/*,	test_launcher:()=>{
 		//	app.del( ()=>{
 		window.test=true;
 		let datas={
@@ -169,7 +183,8 @@ var app = {
 								"clause":[0,1,1,1,1,1,1,1],
 							};
 		app.test(0,datas)
-	},
+	}
+	,
 	test:(i,datas)=>{
 		console.log("LOG_ADHESION : ----------------------------start")
 		Object.keys(datas).map( key=> {
@@ -188,12 +203,13 @@ var app = {
 				app.loadAdhesions(()=>1)
 		}
 
-	}, _alert:function(mess){
+	}*/
+	, _alert:function(mess){
 		if (window.test) console.log('LOG_ADHESION : alerte ',mess)
 		else alert(mess)
 	},
 	del:(callBack)=> {
-    window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (dir) {
+    	window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (dir) {
         dir.getFile(app.adhesionFileName, {create: false}, function (fileEntry) {
             fileEntry.remove(function (file) {
                 alert("fichier supprimé");
