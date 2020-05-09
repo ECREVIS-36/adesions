@@ -1,13 +1,19 @@
-# adhesions : projet en cours de construction 
-Saisie des adhésions sur une tablette
+# adhesions
+Saisie des adhésions sur une tablette. Un fichier contient toutes les inscriptions.
+Le fichier se trouve à cet emplacement : /storage/emulated/0/Android/data/com.gosimpleapp.Adhesion/files
 
-# Projet Cordova
+## Contrôles effectués :
 
-# Infos
-Sous Android le fichier CVS généré se trouve ici : /storage/emulated/0/Android/data/com.gosimpleapp.Adhesion/files
+* Date < aujourd'hui
+* Prénom et Nom : ^[A-Za-z\-éèàâêç ]{2,}$
+* Adresse : ^[0-9A-Za-z,\-éèàâêç ]{5,}$
+* CP      : 1<99000
+* Ville : ^[A-Za-z\-éèàâêç ]{2,}$
+* Tel : ^[0-9 \-]+$
+* Montant : >1
+* Clause : checkée
 
-# pour le tuning 
-dans chrome :www/index.html en mode développeur, avec un device qui ressemble à la tablette utilsée.
+# Compilation 
+C'est un projet Cordova. Il suffit donc de placer le contenu de www, et de recompiler avec cordova.
 
-# todo
-j'ai mis les todo dans le wiki
+
