@@ -16,4 +16,10 @@ Le fichier se trouve à cet emplacement : /storage/emulated/0/Android/data/com.g
 # Compilation 
 C'est un projet Cordova. Il suffit donc de placer le contenu de www, et de recompiler avec cordova.
 
+# Crédit
+
+* Lucas : idée 
+* Antoine : facilitateur
+* Guillaume : désign
+* Stéphane : architecture, réalisation
 
