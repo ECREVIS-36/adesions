@@ -5,7 +5,7 @@ var app = {
   onDeviceReady: function() {
     this.receivedEvent('deviceready');
   },
-  app.testFileCreation:0,
+  testFileCreation:0,
 
   receivedEvent: function(id) {
     app.parentElement = document.getElementById(id);
@@ -25,10 +25,31 @@ var app = {
 	*/
     console.log('LOG_ADHESION : Received Event: ' + id);
     app.storage = window.localStorage;
-	app.loadAdhesions();  //ensure file is created
+		app.loadAdhesions();  //ensure file is created
 
   },
-  champs: ["date d'inscription", "numéro d'adhérent", "prénom", "nom", "adresse", "cp", "ville", "mail", "tel", "montant", "clause"],
+  champs: [
+		"date d'adhésion",
+		"numéro d'adhérent",
+		"prénom",
+		"nom",
+		"adresse",
+		"cp",
+		"ville",
+		"mail",
+		"tel",
+		"montant",
+		"clause"],
+	reinitFields:function(){
+		app.champs.forEach((item, i) => {
+			console.log('LOG_ADHESION : réinit',item)
+			if (item!='clause')
+				document.getElementById(item).value=""
+			else 
+				document.getElementById(item).checked=false
+			console.log('LOG_ADHESION : réinit done',	document.getElementById(item).value)
+		});
+	},
 	champsControle: {
 			"clause": ()=>  document.getElementById('clause').checked,
 			"numéro d'adhérent":()=>{
@@ -57,14 +78,14 @@ var app = {
 					)
         }
       )
-	
+
 	if (el_erreur){
 		app._alert( `${el_erreur} ${document.getElementById(el_erreur).value} n'est pas correct `)
 	}else{
 		console.log("LOG_ADHESION : controles ok");
 		app.saveAdhesion()
 	}
-  }, 
+  },
 
   	adhesionFileName: "adhesions.csv",
  	objectValuesToCsv:(data)=>	Object.values(data).join(';') + '\n',
@@ -82,7 +103,11 @@ var app = {
 			console.log('LOG_ADHESION : doc path in writing resolved',file)
     		app.writeInFile(
 					file, app.objectValuesToCsv(dataObj)
-					, ()=> console.log('LOG_ADHESION : successfully wrote'));
+					, ()=> {
+							console.log('LOG_ADHESION : successfully wrote')
+							alert("Votre adhésion est bien enregistrée, merci !");
+							app.reinitFields();
+						});
 			}, (e) => console.error('LOG_ADHESION : ERREUR writing',JSON.stringify(e)));
   	},
 	readFile: function(fileEntry, callBack) {
@@ -107,7 +132,7 @@ var app = {
 		});
 	},getStorageUrl_:()=>{
 		return cordova.file.externalDataDirectory;
-		if (cordova.file.externalApplicationStorageDirectory)
+		/*if (cordova.file.externalApplicationStorageDirectory)
 			return cordova.file.externalApplicationStorageDirectory
 		else if (cordova.file.externalDataDirectory)
 			return cordova.file.externalApplicationStorageDirectory
@@ -119,13 +144,14 @@ var app = {
 			return cordova.file.externalDataDirectory
 		else {
 			console.error('pas de dir valable')
-			alert('No directrory available'); 
+			alert('No directrory available');
 			return null;
-		}
+		}*/
 	},
 	getStorageUrl:()=>{
 		let url=app.getStorageUrl_()
 		console.log("LOG_ADHESION : url is ",url)
+		if (!url) alert("Pas de stockage disponible")
 		return url
 	},
 	createFile:function(callBack){
@@ -137,74 +163,18 @@ var app = {
 	},
   	loadAdhesions: function(callBack) {
   		app.testFileCreation=app.testFileCreation+1
-  		console.log("load adhésion")
+  		console.log("lLOG_ADHESION : oad adhésion")
   		if (app.testFileCreation>2) {
   			alert("loadAdhesions :création du fichier impossible ")
   			return;
   		}
-		window.resolveLocalFileSystemURL(app.getStorageUrl()+'/'+app.adhesionFileName,  (dirEntry)=> {
-			app.readFile(file, (data) => {
-				/*let array_inscriptions = data.split('\n').map(e => e.split('|'))
-				app.adhesions= array_inscriptions.map(
-									d => d.reduce(
-										(acc, v, i) => {
-											acc[app.champs[i]] = v;
-											return v;
-										}, {}));
-				console.log('LOG_ADHESION : adhesions read',app.adhesions)
-				*/
-				//callBack();
-			});
-		}, ()=> app.createFile( () => app.loadAdhesions(); )
+		window.resolveLocalFileSystemURL(
+				app.getStorageUrl()+'/'+app.adhesionFileName,
+				(dirEntry)=> {
+					app.readFile(file, (data) => 1);
+				}, ()=> app.createFile( () => app.loadAdhesions() )
 		);
-	}
-/*,	test_launcher:()=>{
-		//	app.del( ()=>{
-		window.test=true;
-		let datas={
-								"date d'inscription":[
-											new Date(2019,10,10).toISOString().substring(0, 10),
-											new Date(2020,10,10).toISOString().substring(0, 10),
-											new Date().toISOString().substring(0, 10),
-											new Date().toISOString().substring(0, 10),
-											new Date().toISOString().substring(0, 10),
-											new Date().toISOString().substring(0, 10),
-											new Date().toISOString().substring(0, 10)
-										],
-								"numéro d'adhérent":[1,100,55,13],
-								"prénom":['Stéphane','Alain','i','stephane , et george','Stéphane','Stéphane','Stéphane','Stéphane','Stéphane','Stéphane','Stéphane'],
-								"nom":['Goyet','Parcontre','i','alpha3','goyet','goyet','goyet','goyet','goyet','goyet','goyet','goyet','goyet'],
-								"adresse":['1','bla','33 route des choseaux','33 route des choseaux','33 route des choseaux','33 route des choseaux','33 route des choseaux','33 route des choseaux'],
-								"cp":[74000,13,74000,74000,74000,74000,74000,74000,],
-								"ville":['1','ia','Annecy',,'Annecy','Annecy','Annecy','Annecy','Annecy','Annecy','Annecy'],
-								"mail":['sgoyet@yahoo.fr','','bla','sgoyet@yahoo.fr','sgoyet@yahoo.fr','sgoyet@yahoo.fr','sgoyet@yahoo.fr','sgoyet@yahoo.fr'],
-								"tel":['01','0682526723','i','0682526723','0682526723','0682526723','0682526723','0682526723','0682526723'],
-								"montant":[100,101,102,103,104,105,106,107,108,-2,1.3],
-								"clause":[0,1,1,1,1,1,1,1],
-							};
-		app.test(0,datas)
-	}
-	,
-	test:(i,datas)=>{
-		console.log("LOG_ADHESION : ----------------------------start")
-		Object.keys(datas).map( key=> {
-				 let v=datas[key][ Math.floor(Math.random() * Math.floor(datas[key].length-1))  ]
-				 if (key!='clause')
-				 	document.getElementById(key).value=v;
-				else
-					document.getElementById(key).checked=v==1
-				console.log(key,document.getElementById(key).value,  v)
-		});
-		app.formSubmit();
-
-		if (i<10)setTimeout(function(){app.test(++i,datas)},1000)
-		else {
-				window.test=false
-				app.loadAdhesions(()=>1)
-		}
-
-	}*/
-	, _alert:function(mess){
+	}, _alert:function(mess){
 		if (window.test) console.log('LOG_ADHESION : alerte ',mess)
 		else alert(mess)
 	},
