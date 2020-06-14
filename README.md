@@ -17,7 +17,7 @@ Il peut être visualisé par exemple avec ADB : adb shell cat /sdcard/Android/da
 # Compilation 
 C'est un projet Cordova qui utilse le plugin "File". Il suffit donc de placer le contenu de www, et de recompiler avec cordova.
 
-# Crédit
+# Crédits
 
 * Lucas : idée 
 * Antoine : facilitateur
