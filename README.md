@@ -8,7 +8,7 @@ Il peut être visualisé par exemple avec ADB : adb shell cat /sdcard/Android/da
 * Date < aujourd'hui
 * Prénom et Nom : ^[A-Za-z\-éèàâêç ]{2,}$
 * Adresse : ^[0-9A-Za-z,\-éèàâêç ]{5,}$
-* CP      : 1<99000
+* CP      : <99000
 * Ville : ^[A-Za-z\-éèàâêç ]{2,}$
 * Tel : ^[0-9 \-]+$
 * Montant : >1
