@@ -1,8 +1,7 @@
 # Adhesions
-Saisie d'adhésions sur une tablette. Un fichier contient toutes les inscriptions.
-
-Le fichier se trouve à cet emplacement : Anrdoid / data / / com.gosimplapp.adhesions / adhesions.csv
-Il peut être visualisé avec ADB : adb shell cat /sdcard/Android/data/com.gosimpleapp.adhesions/files/adhesions.csv
+Saisie d'adhésions sur une tablette. 
+Un fichier contient toutes les inscriptions en format csv.
+Il peut être visualisé par exemple avec ADB : adb shell cat /sdcard/Android/data/com.gosimpleapp.adhesions/adhesions.csv
 
 ## Contrôles effectués :
 
