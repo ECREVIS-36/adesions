@@ -1,6 +1,7 @@
-# adhesions
-Saisie des adhésions sur une tablette. Un fichier contient toutes les inscriptions.
-Le fichier se trouve à cet emplacement : /storage/emulated/0/Android/data/com.gosimpleapp.Adhesion/files
+# Adhesions
+Saisie d'adhésions sur une tablette. 
+Un fichier contient toutes les inscriptions en format csv.
+Il peut être visualisé par exemple avec ADB : adb shell cat /sdcard/Android/data/com.gosimpleapp.adhesions/adhesions.csv
 
 ## Contrôles effectués :
 
@@ -14,7 +15,7 @@ Le fichier se trouve à cet emplacement : /storage/emulated/0/Android/data/com.g
 * Clause : checkée
 
 # Compilation 
-C'est un projet Cordova. Il suffit donc de placer le contenu de www, et de recompiler avec cordova.
+C'est un projet Cordova qui utilse le plugin "File". Il suffit donc de placer le contenu de www, et de recompiler avec cordova.
 
 # Crédit
 
